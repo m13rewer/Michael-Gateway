@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: prep-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+      - id: prep-application
+        uri: lb://prep-application
+        predicates:
+        - Path=/prep/**
+        filters:
+        - RewritePath=/prep/(?<path>.*), /$\{path}       
+    config:
+      uri: http://localhost:8080
+      
+server:
+  port: 8080
+  
+#security:
+#  basic:
+#    enabled: false
+
+#management:
+#  security:
+#    enabled: false
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${MICHAEL_EUREKA_SERVER_URL}
